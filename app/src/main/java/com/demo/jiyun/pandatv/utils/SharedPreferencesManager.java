@@ -11,6 +11,7 @@ import com.demo.jiyun.pandatv.app.App;
 
 public class SharedPreferencesManager {
 
+
     private static SharedPreferences preferences = App.context.getSharedPreferences("user",Context.MODE_PRIVATE);
     private static SharedPreferences.Editor editor = preferences.edit();
     public static void saveUserInfo(String key,String userInfo){
