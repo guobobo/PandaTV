@@ -11,4 +11,5 @@ import com.demo.jiyun.pandatv.net.callback.MyNetWorkCallBack;
 public interface IPandaHomeModel extends BaseModel {
 
     void loadHomeList(MyNetWorkCallBack<PandaHomeBean> callBack);
+
 }
