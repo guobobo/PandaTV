@@ -5,12 +5,17 @@ import android.view.View;
 import com.demo.jiyun.pandatv.R;
 import com.demo.jiyun.pandatv.base.BaseFragment;
 import com.demo.jiyun.pandatv.model.entity.PandaHomeBean;
+import com.demo.jiyun.pandatv.utils.MyLog;
 
 /**
  * Created by iu on 2017/7/27.
  */
 
 public class HomeFragment extends BaseFragment implements HomeContract.View {
+
+
+    private HomeContract.Presenter presenter;
+
     @Override
     protected int getLayoutId() {
         return R.layout.home_fragment;
@@ -24,10 +29,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     @Override
     protected void loadData() {
 
+        presenter.start();
     }
 
     @Override
     public void showHomeListData(PandaHomeBean pandaHomeBean) {
+        MyLog.d("TAG","------------"+pandaHomeBean.getData().getCctv().getTitle());
 
     }
 
@@ -59,5 +66,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     @Override
     public void setPresenter(HomeContract.Presenter presenter) {
 
+       this.presenter = presenter;
     }
 }

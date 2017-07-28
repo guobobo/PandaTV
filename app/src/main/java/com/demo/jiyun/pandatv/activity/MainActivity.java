@@ -1,5 +1,6 @@
 package com.demo.jiyun.pandatv.activity;
 
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.demo.jiyun.pandatv.R;
 import com.demo.jiyun.pandatv.base.BaseActivity;
+import com.demo.jiyun.pandatv.base.BaseFragment;
 import com.demo.jiyun.pandatv.module.home.HomeFragment;
 import com.demo.jiyun.pandatv.module.home.HomePresenter;
 import com.demo.jiyun.pandatv.module.livechina.LivechinaFragment;
@@ -48,6 +50,8 @@ public class MainActivity extends BaseActivity {
 
     private long lastTime;//上一次点击back键的时间毫秒数
     public static final int HOMETYPE = 1;
+    private FragmentManager fragmentManager;
+//    private static Fragment lastFragment;
 
 
     @Override
@@ -58,7 +62,9 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void init() {
 
-        HomeFragment homeFragment = (HomeFragment) FragmentBuild.changeFragment(HomeFragment.class, R.id.container, true, null, false);
+
+        fragmentManager = getSupportFragmentManager();
+        HomeFragment homeFragment = (HomeFragment) FragmentBuild.changeFragment(HomeFragment.class, R.id.container, true, null, true);
 
         new HomePresenter(homeFragment);
     }
@@ -79,25 +85,25 @@ public class MainActivity extends BaseActivity {
             case R.id.homePage:
 
                 showTitle(null,HOMETYPE);
-                FragmentBuild.changeFragment(HomeFragment.class,R.id.container,true,null,false);
+                FragmentBuild.changeFragment(HomeFragment.class, R.id.container, true, null, true);
 
                 break;
             case R.id.homePandaLive:
                 showTitle("熊猫直播",0);
-                FragmentBuild.changeFragment(PandaliveFragment.class,R.id.container,true,null,false);
+                FragmentBuild.changeFragment(PandaliveFragment.class,R.id.container,true,null,true);
                 break;
             case R.id.homePandaculture:
 
                 showTitle("熊猫文化",0);
-                FragmentBuild.changeFragment(PandacultureFragment.class,R.id.container,true,null,false);
+                FragmentBuild.changeFragment(PandacultureFragment.class,R.id.container,true,null,true);
                 break;
             case R.id.homePandaBroadcast:
                 showTitle("熊猫播报",0);
-                FragmentBuild.changeFragment(PandaeyeFragment.class,R.id.container,true,null,false);
+                FragmentBuild.changeFragment(PandaeyeFragment.class,R.id.container,true,null,true);
                 break;
             case R.id.homeLiveChina:
                 showTitle("直播中国",0);
-                FragmentBuild.changeFragment(LivechinaFragment.class,R.id.container,true,null,false);
+                FragmentBuild.changeFragment(LivechinaFragment.class,R.id.container,true,null,true);
                 break;
             case R.id.homeBottomGroup:
                 break;
@@ -125,13 +131,27 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if(System.currentTimeMillis() - lastTime < 2000){
-            finish();
+        String topFragmentName = getStackTopFragmentName();
+        if("HomeFragment".equals(topFragmentName)||"LivechinaFragment".equals(topFragmentName)||
+                "PandacultureFragment".equals(topFragmentName)||"PandaeyeFragment".equals(topFragmentName)||
+                "PandaliveFragment".equals(topFragmentName)){
+            if(System.currentTimeMillis() - lastTime < 2000){
+                finish();
+            }else {
+                ToastManager.show("再按一次退出应用");
+                lastTime = System.currentTimeMillis();
+            }
         }else {
-            ToastManager.show("再按一次退出应用");
-            lastTime = System.currentTimeMillis();
+            fragmentManager.popBackStackImmediate();
+            FragmentBuild.lastFragment  = (BaseFragment) fragmentManager.findFragmentByTag(getStackTopFragmentName());
         }
     }
+    public String getStackTopFragmentName(){
+        int entryCount = fragmentManager.getBackStackEntryCount();
+        FragmentManager.BackStackEntry stackEntryAt = fragmentManager.getBackStackEntryAt(entryCount - 1);
+        return stackEntryAt.getName();
+    }
+
 }
 
 

@@ -13,7 +13,7 @@ import com.demo.jiyun.pandatv.base.BaseFragment;
 
 public class FragmentBuild {
 
-    private static BaseFragment lastFragment;
+    public static BaseFragment lastFragment;
 
     public static BaseFragment changeFragment(Class<? extends BaseFragment> fragmentClass, int containId, boolean isHidden, Bundle bundle, boolean isBack) {
 
@@ -39,7 +39,7 @@ public class FragmentBuild {
         }
         if(isHidden) {
             //隐藏上一个Fragment
-            if (lastFragment != null)
+            if (lastFragment != null&isBack)
                 transaction.hide(lastFragment);
             //显示当前Fragment
             transaction.show(currentFragment);
@@ -48,17 +48,16 @@ public class FragmentBuild {
             transaction.replace(containId,currentFragment,fragmentName);
         }
         //传递参数
-//        if(bundle != null){
-//            currentFragment.setBundle(bundle);
-//        }
+        if(bundle != null){
+            currentFragment.setBundle(bundle);
+        }
 
         if(isBack){
             transaction.addToBackStack(fragmentName);
+            lastFragment = currentFragment;
         }
 
         transaction.commit();
-
-        lastFragment = currentFragment;
 
         return lastFragment;
 
