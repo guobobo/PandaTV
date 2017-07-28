@@ -8,19 +8,28 @@ import android.support.v7.app.AppCompatActivity;
 import com.demo.jiyun.pandatv.app.App;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public abstract class BaseActivity extends AppCompatActivity {
+
+    private Unbinder bind;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.context = this;
         setContentView(getLayoutId());
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
+
         init();
     }
 
     protected abstract int getLayoutId();
     protected abstract void init();
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bind.unbind();
+    }
 }

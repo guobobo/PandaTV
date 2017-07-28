@@ -72,7 +72,7 @@ public class OkHttp implements IHttp {
     }
 
 
-    //带请求体不带请求头的方法
+    //带请求体不带请求头的方法GET
     @Override
     public <T> void get(String url, Map<String, String> params, final MyNetWorkCallBack<T> callBack) {
 

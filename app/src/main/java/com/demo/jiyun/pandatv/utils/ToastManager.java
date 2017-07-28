@@ -4,9 +4,6 @@ import android.widget.Toast;
 
 import com.demo.jiyun.pandatv.app.App;
 
-/**
- * Created by xingge on 2017/7/26.
- */
 
 public class ToastManager {
 

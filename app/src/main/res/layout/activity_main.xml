@@ -46,6 +46,10 @@
             android:layout_toLeftOf="@id/personImg"/>
 
     </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/colorLightGray"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -53,6 +57,10 @@
         android:id="@+id/container"
         android:layout_weight="1"></FrameLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorLightGray"/>
     <RadioGroup
         android:id="@+id/homeBottomGroup"
         android:layout_width="match_parent"
@@ -70,7 +78,8 @@
             android:gravity="center"
             android:checked="true"
             android:text="首页"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:background="@drawable/radio_bg"/>
         <RadioButton
             android:id="@+id/homePandaLive"
             android:layout_weight="1"
@@ -81,9 +90,10 @@
             android:drawableTop="@drawable/tab_panda_live_normal"
             android:text="熊猫直播"
             android:drawablePadding="5dp"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:background="@drawable/radio_bg"/>
         <RadioButton
-            android:id="@+id/homeRollVideo"
+            android:id="@+id/homePandaculture"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="55dp"
@@ -92,7 +102,8 @@
             android:drawableTop="@drawable/tab_panda_culture_normals"
             android:text="熊猫文化"
             android:drawablePadding="5dp"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:background="@drawable/radio_bg"/>
         <RadioButton
             android:id="@+id/homePandaBroadcast"
             android:layout_weight="1"
@@ -103,7 +114,8 @@
             android:drawableTop="@drawable/tab_panda_eye_normal"
             android:text="熊猫观察"
             android:drawablePadding="5dp"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            android:background="@drawable/radio_bg"/>
 
         <RadioButton
             android:id="@+id/homeLiveChina"
@@ -116,6 +128,7 @@
             android:text="直播中国"
             android:drawablePadding="5dp"
             android:textSize="12sp"
+            android:background="@drawable/radio_bg"
             />
     </RadioGroup>
 

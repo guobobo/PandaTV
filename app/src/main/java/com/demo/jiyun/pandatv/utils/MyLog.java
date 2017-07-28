@@ -2,9 +2,6 @@ package com.demo.jiyun.pandatv.utils;
 
 import android.util.Log;
 
-/**
- * Created by xingge on 2017/7/13.
- */
 
 public class MyLog {
     private static boolean isOpen = true;

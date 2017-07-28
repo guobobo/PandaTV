@@ -1,7 +1,5 @@
 package com.demo.jiyun.pandatv.activity;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -10,7 +8,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.demo.jiyun.pandatv.R;
+import com.demo.jiyun.pandatv.base.BaseActivity;
 import com.demo.jiyun.pandatv.module.home.HomeFragment;
+import com.demo.jiyun.pandatv.module.home.HomePresenter;
 import com.demo.jiyun.pandatv.module.livechina.LivechinaFragment;
 import com.demo.jiyun.pandatv.module.pandaculture.PandacultureFragment;
 import com.demo.jiyun.pandatv.module.pandaeye.PandaeyeFragment;
@@ -19,10 +19,9 @@ import com.demo.jiyun.pandatv.utils.FragmentBuild;
 import com.demo.jiyun.pandatv.utils.ToastManager;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.iconImg)
     ImageView iconImg;
@@ -38,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
     RadioButton homePage;
     @BindView(R.id.homePandaLive)
     RadioButton homePandaLive;
-    @BindView(R.id.homeRollVideo)
-    RadioButton homeRollVideo;
+    @BindView(R.id.homePandaculture)
+    RadioButton homePandaculture;
     @BindView(R.id.homePandaBroadcast)
     RadioButton homePandaBroadcast;
     @BindView(R.id.homeLiveChina)
@@ -50,14 +49,21 @@ public class MainActivity extends AppCompatActivity {
     private long lastTime;//上一次点击back键的时间毫秒数
     public static final int HOMETYPE = 1;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+    protected int getLayoutId() {
+        return R.layout.activity_main;
     }
 
-    @OnClick({R.id.iconImg, R.id.personImg, R.id.titleTv, R.id.hudongImg, R.id.container, R.id.homePage, R.id.homePandaLive, R.id.homeRollVideo, R.id.homePandaBroadcast, R.id.homeLiveChina, R.id.homeBottomGroup})
+    @Override
+    protected void init() {
+
+        HomeFragment homeFragment = (HomeFragment) FragmentBuild.changeFragment(HomeFragment.class, R.id.container, true, null, false);
+
+        new HomePresenter(homeFragment);
+    }
+
+    @OnClick({R.id.iconImg, R.id.personImg, R.id.titleTv, R.id.hudongImg, R.id.container, R.id.homePage, R.id.homePandaLive, R.id.homePandaculture, R.id.homePandaBroadcast, R.id.homeLiveChina, R.id.homeBottomGroup})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iconImg:
@@ -80,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 showTitle("熊猫直播",0);
                 FragmentBuild.changeFragment(PandaliveFragment.class,R.id.container,true,null,false);
                 break;
-            case R.id.homeRollVideo:
+            case R.id.homePandaculture:
 
                 showTitle("熊猫文化",0);
                 FragmentBuild.changeFragment(PandacultureFragment.class,R.id.container,true,null,false);

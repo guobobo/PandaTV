@@ -19,16 +19,16 @@ public class FragmentBuild {
 
         FragmentManager manager = App.context.getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        //获取Fragment的类名，用类名当做Tag
+
         String fragmentName = fragmentClass.getSimpleName();
-        //根据tag来查找当前Fragment，如果不为null 就代表当前Fragment已经被加载过至少一次
+
         BaseFragment currentFragment = (BaseFragment) manager.findFragmentByTag(fragmentName);
         if(currentFragment == null){
-            //如果Fragment为null 就创建Fragment对象，添加到FragmentManager中
+
             try {
-                //通过Java动态代理创建的对象
+
                 currentFragment = fragmentClass.newInstance();
-                //添加到FragmentManager中
+
                 transaction.add(containId,currentFragment,fragmentName);
 
             } catch (InstantiationException e) {
@@ -48,9 +48,9 @@ public class FragmentBuild {
             transaction.replace(containId,currentFragment,fragmentName);
         }
         //传递参数
-        if(bundle != null){
-            currentFragment.setBundle(bundle);
-        }
+//        if(bundle != null){
+//            currentFragment.setBundle(bundle);
+//        }
 
         if(isBack){
             transaction.addToBackStack(fragmentName);
