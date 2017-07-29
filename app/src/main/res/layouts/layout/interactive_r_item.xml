@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <TextView
+        android:layout_marginLeft="@dimen/x30"
+        android:layout_marginTop="@dimen/y20"
+        android:id="@+id/interactive_r_item_tv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="二十四节气"
+        android:textSize="15sp"
+        android:textColor="#303f9f"/>
+
+    <TextView
+        android:layout_marginTop="@dimen/y30"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y5"
+        android:background="#0f0f0f0f"/>
+
+    <ImageView
+        android:layout_marginTop="@dimen/y20"
+        android:id="@+id/interactive_r_item_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"/>
+<!--android:scaleType="fitXY"-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/interactive_r_item_tv2"
+        android:textSize="12sp"
+        android:textColor="#000"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y30"
+        android:background="#0f0f0f0f"/>
+</LinearLayout>
