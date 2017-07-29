@@ -35,7 +35,7 @@ public class CustomDialog extends Dialog {
     }
 
     public static void dimiss(){
-        if (dialog != null && dialog.isShowing())
+//        if (dialog != null && dialog.isShowing())
             dialog.dismiss();
     }
 }

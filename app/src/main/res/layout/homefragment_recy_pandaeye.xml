@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
 
     <TextView
         android:layout_width="match_parent"
@@ -130,14 +131,12 @@
         android:layout_height="@dimen/y10"
         android:background="@drawable/transverse_gray_line"/>
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="@dimen/y400"
-        android:divider="#ccc"
-        android:dividerHeight="1dp"
-        android:id="@+id/pandaeye_listview">
+        android:id="@+id/pandaeye_recy">
 
 
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

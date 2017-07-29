@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
 
 
     <TextView
@@ -18,7 +19,7 @@
 
 
         <TextView
-            android:id="@+id/cctv_title"
+            android:id="@+id/light_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="《光影中国》"
@@ -34,14 +35,13 @@
         android:layout_height="@dimen/y15"
         android:background="@drawable/transverse_gray_line"/>
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/y1024"
+        android:layout_height="match_parent"
         android:divider="#cccccc"
         android:dividerHeight="1dp"
-        android:id="@+id/light_listview">
+        android:id="@+id/light_recy">
 
-
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>
