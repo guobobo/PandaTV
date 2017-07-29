@@ -25,10 +25,6 @@ public class PandalivePresenter implements PandaliveContract.Presenter {
         pandaliveview.showProgress();
         pandaLiveModel.loadPandaLiveList(new MyNetWorkCallBack<PandaLiveBean>() {
 
-
-
-
-
             @Override
             public void onSuccess(PandaLiveBean pandaLiveBean) {
                 pandaliveview.showPandaeyeData(pandaLiveBean);

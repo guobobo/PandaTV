@@ -185,6 +185,67 @@ public class OkHttp implements IHttp {
 
     }
 
+    @Override
+    public <T> void getWonderfulDta(String url, Map<String, String> params, final MyNetWorkCallBack<T> callBack) {
+
+        StringBuffer sb = new StringBuffer(url);
+
+        if(params!=null&&params.size()>0){
+
+            sb.append("?");
+
+            Set<String> keySet = params.keySet();
+
+            for (String key :keySet){
+
+                String value = params.get(key);
+
+                sb.append(key).append("=").append(value).append("&");
+
+            }
+            url = sb.deleteCharAt(sb.length() - 1).toString();
+
+        }
+
+        Request request = new Request.Builder().url(url).build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+
+                App.context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        callBack.onError(e.getMessage().toString());
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                final String string = response.body().string();
+
+                App.context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        App.context.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                callBack.onSuccess(getGeneric(string,callBack));
+                            }
+                        });
+                    }
+                });
+
+            }
+        });
+
+    }
+
     //POST带请求体
     @Override
     public <T> void post(String url, Map<String, String> params, final MyNetWorkCallBack<T> callBack) {

@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mResultTv"
-        android:text="熊猫直播"
-        android:layout_gravity="center"/>
+        android:id="@+id/panda_live_tab"
+        app:tabSelectedTextColor="#3F51B5"
+        app:tabIndicatorColor="#3F51B5"
+        app:tabTextColor="@color/colorBlank"
+        >
+    </android.support.design.widget.TabLayout>
+    
+    <com.demo.jiyun.pandatv.utils.CustomViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/panda_live_pager"></com.demo.jiyun.pandatv.utils.CustomViewPager>
 
 </LinearLayout>

@@ -25,12 +25,11 @@ public class LivechinaPresenter implements LivechinaContract.Presenter {
 
         livechainaView.showProgress();
         homeModel.loadChinaLiveList(new MyNetWorkCallBack<ChinaLiveBean>() {
-
-
             @Override
             public void onSuccess(ChinaLiveBean chinaLiveBean) {
 
                 livechainaView.showLivechinaData(chinaLiveBean);
+
                 livechainaView.dimissProgress();
             }
 
@@ -44,4 +43,5 @@ public class LivechinaPresenter implements LivechinaContract.Presenter {
         });
 
     }
+
 }
