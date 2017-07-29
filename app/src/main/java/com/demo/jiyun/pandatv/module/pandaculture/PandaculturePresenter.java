@@ -24,12 +24,8 @@ public class PandaculturePresenter implements PandacultureContract.Presenter {
 
         pandaultureview.showProgress();
         homeModel.loadCurtureBeanList(new MyNetWorkCallBack<CurtureBean>() {
-
-
-
             @Override
             public void onSuccess(CurtureBean curtureBean) {
-
                 pandaultureview.showPandacultureData(curtureBean);
                 pandaultureview.dimissProgress();
             }
@@ -40,7 +36,6 @@ public class PandaculturePresenter implements PandacultureContract.Presenter {
                 pandaultureview.showMessage(message);
                 pandaultureview.dimissProgress();
             }
-
         });
 
     }

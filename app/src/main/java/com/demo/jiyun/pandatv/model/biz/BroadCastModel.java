@@ -2,6 +2,7 @@ package com.demo.jiyun.pandatv.model.biz;
 
 import com.demo.jiyun.pandatv.base.BaseModel;
 import com.demo.jiyun.pandatv.model.entity.BroadCastBean;
+import com.demo.jiyun.pandatv.model.entity.BroadCastListBean;
 import com.demo.jiyun.pandatv.net.callback.MyNetWorkCallBack;
 
 /**
@@ -10,4 +11,5 @@ import com.demo.jiyun.pandatv.net.callback.MyNetWorkCallBack;
 
 public interface BroadCastModel extends BaseModel {
     void loadBroadCastList(MyNetWorkCallBack<BroadCastBean> callBack);
+    void LoadBroadCastUrlListData(MyNetWorkCallBack<BroadCastListBean> callBack);
 }
