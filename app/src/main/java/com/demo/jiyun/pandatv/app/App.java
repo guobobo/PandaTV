@@ -16,7 +16,7 @@ public class App extends Application {
     {
 
         PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
-        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+        PlatformConfig.setQQZone("1106321830", "nGuCvB0IFvIKz4lW");
         PlatformConfig.setSinaWeibo("2853957639", "be66045c566b3739629f7ead39cea781", "http://sina.com");
     }
 
