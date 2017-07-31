@@ -156,6 +156,7 @@
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
 
+
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="597ed0d5f5ade464d3000842">
