@@ -14,6 +14,7 @@ import com.demo.jiyun.pandatv.model.entity.BroadCastBean;
 import com.demo.jiyun.pandatv.model.entity.BroadCastListBean;
 import com.demo.jiyun.pandatv.module.pandaeye.adapter.PandaeyeAdapterXRecy;
 import com.demo.jiyun.pandatv.utils.CustomDialog;
+import com.demo.jiyun.pandatv.utils.DBUtils;
 import com.demo.jiyun.pandatv.utils.ToActivity;
 import com.demo.jiyun.pandatv.utils.ToastManager;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -67,6 +68,11 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
                         broadCastListBeen.get(position).getTitle(),
                         broadCastListBeen.get(position).getPicurl2(),
                         broadCastListBeen.get(position).getVideolength());
+                DBUtils.getInstance(getActivity()).addHistory(null,
+                        broadCastListBeen.get(position).getTitle(),
+                        broadCastListBeen.get(position).getPicurl2(),
+                        broadCastListBeen.get(position).getGuid(),
+                        broadCastListBeen.get(position).getVideolength());
             }
         });
         showHead();
@@ -87,7 +93,7 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
             Glide.with(getActivity()).load(bigImgBean.getImage()).into(itemEyeImg);
             url= bigImgBean.getUrl();
         }
-        pandaeyeAdapterXRecy.notifyDataSetChanged();
+//        pandaeyeAdapterXRecy.notifyDataSetChanged();
 
     }
 
@@ -97,6 +103,7 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
         broadCastListBeen.addAll(broadCastListBean.getList());
         pandaeyeAdapterXRecy.notifyDataSetChanged();
         pandaeyeXrecy.refreshComplete();
+        pandaeyeXrecy.loadMoreComplete();
     }
 
     @Override
@@ -136,7 +143,6 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
 
     @Override
     public void onLoadMore() {
-
     }
 
     public void showHead(){

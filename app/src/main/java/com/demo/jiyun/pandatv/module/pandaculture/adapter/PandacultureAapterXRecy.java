@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.demo.jiyun.pandatv.R;
 import com.demo.jiyun.pandatv.config.GlideImageLoader;
 import com.demo.jiyun.pandatv.model.entity.CurtureBean;
+import com.demo.jiyun.pandatv.utils.DBUtils;
 import com.demo.jiyun.pandatv.utils.ToActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -147,8 +148,12 @@ public class PandacultureAapterXRecy extends RecyclerView.Adapter {
                             listBeanList.get(position).getTitle(),
                             listBeanList.get(position).getImage(),
                             listBeanList.get(position).getVideoLength());
+                    DBUtils.getInstance(context).addHistory(null,
+                            listBeanList.get(position).getTitle(),
+                            listBeanList.get(position).getImage(),
+                            listBeanList.get(position).getId(),
+                            listBeanList.get(position).getVideoLength());
                 }
-
             }
         });
     }

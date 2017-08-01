@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/x10"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/item_collection_linear"
+        >
+        <LinearLayout
+            android:id="@+id/item_collection_checklinear"
+            android:layout_width="25dp"
+            android:layout_height="80dp"
+            android:gravity="center"
+            android:visibility="gone"
+            >
+            <RadioButton
+                android:id="@+id/item_collectioncheckBox"
+                android:button="@null"
+                android:checked="false"
+                android:background="@drawable/history_selector"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="80dp">
+            <ImageView
+                android:id="@+id/item_collection_img"
+                android:layout_width="150dp"
+                android:layout_height="80dp"
+                android:src="@drawable/_no_img"
+                android:scaleType="fitXY"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:orientation="horizontal"
+                android:background="@drawable/lpanda_bottom_gra"
+                android:layout_alignParentBottom="true"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/play" />
+                <TextView
+                    android:id="@+id/item_collection_videolength"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:gravity="center_vertical"
+                    android:text=""
+                    android:textColor="#fff"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/item_collectiontitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:textColor="#000"
+                    android:layout_marginLeft="10dp"
+                    android:textSize="15sp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/item_collection_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text=""
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

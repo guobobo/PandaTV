@@ -1,18 +1,24 @@
 package com.demo.jiyun.pandatv.module.play;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
 import com.demo.jiyun.pandatv.R;
 import com.demo.jiyun.pandatv.base.BaseActivity;
+import com.demo.jiyun.pandatv.model.db.Keep;
 import com.demo.jiyun.pandatv.model.entity.VoidePlayBean;
+import com.demo.jiyun.pandatv.utils.DBUtils;
 import com.demo.jiyun.pandatv.utils.ToastManager;
 import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMVideo;
+
+import java.util.List;
 
 import fm.jiecao.jcvideoplayer_lib.JCUserAction;
 import fm.jiecao.jcvideoplayer_lib.JCUserActionStandard;
@@ -42,6 +48,7 @@ public class JCPlayActivity extends BaseActivity implements JCPlayContarct.View,
             }
         }
     };
+    private DBUtils instance;
 
     @Override
     protected int getLayoutId() {
@@ -57,7 +64,7 @@ public class JCPlayActivity extends BaseActivity implements JCPlayContarct.View,
         duration = getIntent().getStringExtra("duration");
 
         presenter.showPlay(id);
-
+        instance = DBUtils.getInstance(this);
     }
 
     private void initView() {
@@ -114,7 +121,7 @@ public class JCPlayActivity extends BaseActivity implements JCPlayContarct.View,
         video.setThumb(new UMImage(JCPlayActivity.this,image));//视频的缩略图
         video.setDescription(data);//视频的描述
 
-        new ShareAction(JCPlayActivity.this).withText(title)  .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN).setCallback(new UMShareListener() {
+        new ShareAction(JCPlayActivity.this).withText(title).withMedia(video).setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN).setCallback(new UMShareListener() {
             @Override
             public void onStart(SHARE_MEDIA share_media) {
 
@@ -134,17 +141,23 @@ public class JCPlayActivity extends BaseActivity implements JCPlayContarct.View,
             public void onCancel(SHARE_MEDIA share_media) {
 
             }
-        }).withMedia(video).open();
+        }).open();
     }
 
     @Override
     public void sC() {
 
+        instance.addKeep(data,title,image,id,duration);
+
     }
 
     @Override
     public void qxsc() {
-
+        List<Keep> query = DBUtils.getInstance(this).collection();
+        for(int i = 0; i < query.size(); i++) {
+            Keep keep = query.get(i);
+            instance.delete(keep);
+        }
     }
 
     @Override
@@ -229,4 +242,9 @@ public class JCPlayActivity extends BaseActivity implements JCPlayContarct.View,
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode,resultCode,data);
+    }
 }
