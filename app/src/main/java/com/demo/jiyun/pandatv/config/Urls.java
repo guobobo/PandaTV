@@ -43,4 +43,15 @@ public class Urls {
     public static final String UPDATE_URL = "http://115.182.9.124/index.php?action=release-GetNewVersions&applyName=1426217325";
 
 
+    //获取图片验证码
+    public static final String IMGCODE = "http://reg.cntv.cn/simple/verificationCode.action";
+    //邮箱注册
+    public static final String EMAILREGISTER = "https://reg.cntv.cn/api/register.action";
+
+    //手机短信验证码
+    public static final String PHONECODE = "http://reg.cntv.cn/regist/getVerifiCode.action";
+
+    //手机注册
+
+    public static final String PHONEREGISTER ="https://reg.cntv.cn/regist/mobileRegist.do";
 }

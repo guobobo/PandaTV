@@ -24,6 +24,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        App.context = this;
+    }
+
     protected abstract int getLayoutId();
     protected abstract void init();
 

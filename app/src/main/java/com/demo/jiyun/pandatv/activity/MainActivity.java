@@ -13,11 +13,14 @@ import com.demo.jiyun.pandatv.base.BaseActivity;
 import com.demo.jiyun.pandatv.base.BaseFragment;
 import com.demo.jiyun.pandatv.module.home.HomeFragment;
 import com.demo.jiyun.pandatv.module.home.HomePresenter;
+import com.demo.jiyun.pandatv.module.interactive.InteractiveActivity;
 import com.demo.jiyun.pandatv.module.livechina.LivechinaFragment;
+import com.demo.jiyun.pandatv.module.mine.PersonalActivity;
 import com.demo.jiyun.pandatv.module.pandaculture.PandacultureFragment;
 import com.demo.jiyun.pandatv.module.pandaeye.PandaeyeFragment;
 import com.demo.jiyun.pandatv.module.pandalive.PandaliveFragment;
 import com.demo.jiyun.pandatv.utils.FragmentBuild;
+import com.demo.jiyun.pandatv.utils.ToActivity;
 import com.demo.jiyun.pandatv.utils.ToastManager;
 
 import butterknife.BindView;
@@ -75,10 +78,12 @@ public class MainActivity extends BaseActivity {
             case R.id.iconImg:
                 break;
             case R.id.personImg:
+                ToActivity.load(PersonalActivity.class);
                 break;
             case R.id.titleTv:
                 break;
             case R.id.hudongImg:
+                ToActivity.load(InteractiveActivity.class);
                 break;
             case R.id.container:
                 break;

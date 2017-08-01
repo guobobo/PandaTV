@@ -1,6 +1,7 @@
 package com.demo.jiyun.pandatv.module.home.adapter;
 
 import android.content.Context;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.demo.jiyun.pandatv.net.HttpFactory;
 import com.demo.jiyun.pandatv.net.callback.MyNetWorkCallBack;
 import com.demo.jiyun.pandatv.utils.MyLog;
 import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -223,10 +225,12 @@ public class HomeAdapter extends RecyclerView.Adapter {
     class BannerHoder extends RecyclerView.ViewHolder {
 
         private final Banner home_banner;
+        private final TextView home_banner_title;
 
         public BannerHoder(View itemView) {
             super(itemView);
             home_banner = (Banner) itemView.findViewById(R.id.home_banner);
+            home_banner_title = (TextView) itemView.findViewById(R.id.home_banner_title);
         }
     }
 
@@ -480,7 +484,7 @@ public class HomeAdapter extends RecyclerView.Adapter {
     }
 
     //轮播图
-    private void loadBanner(BannerHoder hoder,List<PandaHomeBean.DataBean.BigImgBean>imgBean){
+    private void loadBanner(final BannerHoder hoder, final List<PandaHomeBean.DataBean.BigImgBean>imgBean){
 
         ArrayList<String> list = new ArrayList<String>();
 
@@ -498,7 +502,31 @@ public class HomeAdapter extends RecyclerView.Adapter {
         //设置图片集合
         hoder.home_banner.setImages(list);
         //banner设置方法全部调用完毕时最后调用
+        hoder.home_banner.setIndicatorGravity(BannerConfig.RIGHT);
         hoder.home_banner.start();
+        hoder.home_banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                if(position<=4&&position!=0){
+
+                    hoder.home_banner_title.setText(imgBean.get(position-1).getTitle());
+                }else {
+                    position=0;
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
     }
 

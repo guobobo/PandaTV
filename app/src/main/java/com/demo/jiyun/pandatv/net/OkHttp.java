@@ -1,10 +1,12 @@
 package com.demo.jiyun.pandatv.net;
 
 
+import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.demo.jiyun.pandatv.app.App;
+import com.demo.jiyun.pandatv.config.Keys;
 import com.demo.jiyun.pandatv.net.callback.MyNetWorkCallBack;
 import com.google.gson.Gson;
 
@@ -17,6 +19,7 @@ import java.util.Set;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -246,6 +249,60 @@ public class OkHttp implements IHttp {
 
     }
 
+    //拼接参数的Get请求
+    @Override
+    public <T> void getReisteredData(String url, Map<String, String> params, Map<String, String> headers, final MyNetWorkCallBack<T> callback) {
+
+
+        StringBuffer sb = new StringBuffer(url);
+        if(params != null && params.size() > 0){
+            sb.append("?");
+            Set<String> keys = params.keySet();
+            for (String key : keys) {
+                String value = params.get(key);
+                sb.append(key).append("=").append(value).append("&");
+            }
+            url = sb.deleteCharAt(sb.length()-1).toString();
+        }
+        Request.Builder builder = new Request.Builder();
+        if(headers != null && headers.size() > 0){
+            Set<String> keys = headers.keySet();
+            for (String key : keys){
+                String value = headers.get(key);
+                builder.addHeader(key,value);
+            }
+        }
+        Request request = builder.url(url).build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                App.context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //执行在主线程
+                        callback.onError(e.getMessage().toString());
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String jsonData = response.body().string();
+                //执行在子线程中
+                App.context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //执行在主线程
+                        callback.onSuccess(getGeneric(jsonData,callback));
+                    }
+                });
+
+            }
+        });
+
+    }
+
     //POST带请求体
     @Override
     public <T> void post(String url, Map<String, String> params, final MyNetWorkCallBack<T> callBack) {
@@ -370,6 +427,53 @@ public class OkHttp implements IHttp {
         Glide.with(App.context).load(url).into(imageView);
 
     }
+
+    public void loadImgCode(String url,final MyNetWorkCallBack<Bundle> callback){
+        Request request = new Request.Builder().url(url).build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                App.context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //执行在主线程
+                        callback.onError(e.getMessage().toString());
+                    }
+                });
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                byte[] bytes = response.body().bytes();
+                Headers headers = response.headers();
+                String jsessionId =  headers.get("Set-Cookie");
+//                for (int i = 0; i < headers.size(); i++){
+//                    String name = headers.name(i);
+//                    headers.get("Set-Cookie")
+//                    MyLog.d("abc","name = "+name);
+//                    if(name != null && name.contains("JSESSIONID") && !name.contains(";")){
+//                        jsessionId = headers.get(name);
+//                        break;
+//                    }
+//                }
+                final Bundle bundle = new Bundle();
+                bundle.putString(Keys.JSESSIONID,jsessionId);
+                bundle.putByteArray(Keys.IMGCODE,bytes);
+
+                //执行在子线程中
+                App.context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //执行在主线程
+                        callback.onSuccess(bundle);
+                    }
+                });
+
+            }
+        });
+    }
+
 
     /**
      * 自动解析json至回调中的JavaBean
