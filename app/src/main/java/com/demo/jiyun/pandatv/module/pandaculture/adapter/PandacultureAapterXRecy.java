@@ -129,7 +129,7 @@ public class PandacultureAapterXRecy extends RecyclerView.Adapter {
     }
 
 
-    private void loadList(ListHolder holder, List<CurtureBean.ListBean> listBeanList) {
+    private void loadList(ListHolder holder, final List<CurtureBean.ListBean> listBeanList) {
         RecyclerView recyclerView = holder.recyclerView;
         LinearLayoutManager manager=new LinearLayoutManager(context);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -139,8 +139,16 @@ public class PandacultureAapterXRecy extends RecyclerView.Adapter {
         cultureRecyAdapter.setOnCulturePlay(new CultureRecyAdapter.OnCulturePlay() {
             @Override
             public void loadCulturePlay(int position) {
+                if(position==0){
 
-//                ToActivity.loadPlay();
+                }else {
+                    ToActivity.loadPlay(
+                            listBeanList.get(position).getId(),
+                            listBeanList.get(position).getTitle(),
+                            listBeanList.get(position).getImage(),
+                            listBeanList.get(position).getVideoLength());
+                }
+
             }
         });
     }

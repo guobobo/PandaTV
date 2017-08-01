@@ -18,7 +18,7 @@
                 android:id="@+id/item_eye_list_img"
                 android:layout_width="150dp"
                 android:layout_height="80dp"
-                android:src="@mipmap/ic_launcher"
+                android:src="@drawable/_no_img"
                 android:scaleType="fitXY"
                 />
             <LinearLayout
@@ -39,7 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
                     android:gravity="center_vertical"
-                    android:text="6544231321"
+                    android:text=""
                     android:textColor="#fff"
                     android:layout_marginLeft="5dp"
                     android:textSize="12sp" />
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:maxLines="2"
                     android:layout_marginTop="5dp"
-                    android:text="465465432132136"
+                    android:text=""
                     android:textColor="#000"
                     android:layout_marginLeft="10dp"
                     android:textSize="15sp" />
@@ -70,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1"
-                android:text="123132132132"
+                android:text=""
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:textSize="12sp" />

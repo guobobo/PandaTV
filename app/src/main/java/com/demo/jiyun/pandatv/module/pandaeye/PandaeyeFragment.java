@@ -34,7 +34,7 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
 
     ImageView itemEyeImg;
     TextView itemEyeTitle;
-
+    String url = null;
     private PandaeyeContract.Presenter presenter;
     private PandaeyeAdapterXRecy pandaeyeAdapterXRecy;
     private List<BroadCastBean.DataBean.BigImgBean> broadCasts;
@@ -62,11 +62,14 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
         pandaeyeAdapterXRecy.OnPandaeyePlay(new PandaeyeAdapterXRecy.OnPandaeyePlay() {
             @Override
             public void showPandaeyePlay(int position) {
-
-//                ToActivity.loadPlay();
+                ToActivity.loadPlay(
+                        broadCastListBeen.get(position).getGuid(),
+                        broadCastListBeen.get(position).getTitle(),
+                        broadCastListBeen.get(position).getPicurl2(),
+                        broadCastListBeen.get(position).getVideolength());
             }
         });
-
+        showHead();
     }
 
     @Override
@@ -78,9 +81,14 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
     public void showPandaeyeData(BroadCastBean broadCastBean) {
         broadCasts.clear();
         broadCasts.addAll(broadCastBean.getData().getBigImg());
-        showHead();
+        for (int i = 0; i < broadCasts.size(); i++) {
+            BroadCastBean.DataBean.BigImgBean bigImgBean = broadCasts.get(i);
+            itemEyeTitle.setText(bigImgBean.getTitle());
+            Glide.with(getActivity()).load(bigImgBean.getImage()).into(itemEyeImg);
+            url= bigImgBean.getUrl();
+        }
         pandaeyeAdapterXRecy.notifyDataSetChanged();
-        pandaeyeXrecy.refreshComplete();
+
     }
 
     @Override
@@ -88,6 +96,7 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
         broadCastListBeen.clear();
         broadCastListBeen.addAll(broadCastListBean.getList());
         pandaeyeAdapterXRecy.notifyDataSetChanged();
+        pandaeyeXrecy.refreshComplete();
     }
 
     @Override
@@ -131,22 +140,16 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
     }
 
     public void showHead(){
-        String url = null;
+
         View bigimgView = LayoutInflater.from(App.context).inflate(R.layout.item_eye_bigimg, null);
         pandaeyeXrecy.addHeaderView(bigimgView);
         itemEyeImg = (ImageView) bigimgView.findViewById(R.id.item_eye_img);
         itemEyeTitle= (TextView) bigimgView.findViewById(R.id.item_eye_title);
-        for (int i = 0; i < broadCasts.size(); i++) {
-            BroadCastBean.DataBean.BigImgBean bigImgBean = broadCasts.get(i);
-            itemEyeTitle.setText(bigImgBean.getTitle());
-            Glide.with(getActivity()).load(bigImgBean.getImage()).into(itemEyeImg);
-            url= bigImgBean.getUrl();
-        }
-        final String finalUrl = url;
+
         itemEyeImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToActivity.loadWeb(finalUrl);
+                ToActivity.loadWeb(url);
             }
         });
     }

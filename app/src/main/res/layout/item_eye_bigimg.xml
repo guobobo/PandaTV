@@ -25,7 +25,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="10dp"
             android:layout_gravity="center_vertical"
-            android:text="123546"
+            android:text=""
             android:textColor="#fff"
             android:textSize="14sp" />
     </LinearLayout>

@@ -37,7 +37,7 @@ public class Urls {
 
     //视频播放  http://115.182.9.189/api/getVideoInfoForCBox.do
 
-    public static final String VIDEO = "http://115.182.9.189/api/getVideoInfoForCBox.do?pid=";
+    public static final String VIDEO = "http://115.182.9.189/api/getVideoInfoForCBox.do";
 
     //版本更新
     public static final String UPDATE_URL = "http://115.182.9.124/index.php?action=release-GetNewVersions&applyName=1426217325";
