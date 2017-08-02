@@ -1,5 +1,6 @@
 package com.demo.jiyun.pandatv.module.mine;
 
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -7,12 +8,16 @@ import android.widget.TextView;
 
 import com.demo.jiyun.pandatv.R;
 import com.demo.jiyun.pandatv.base.BaseActivity;
+import com.demo.jiyun.pandatv.config.Keys;
 import com.demo.jiyun.pandatv.utils.ToActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class PersonalActivity extends BaseActivity {
+import static com.demo.jiyun.pandatv.R.id.liner_login_success;
+import static com.demo.jiyun.pandatv.R.id.personal_avatarusername_success;
+
+public class PersonalActivity extends BaseActivity  {
 
 
     @BindView(R.id.personal_backImage)
@@ -23,9 +28,9 @@ public class PersonalActivity extends BaseActivity {
     LinearLayout linerLogin;
     @BindView(R.id.personal_avatarImage_success)
     ImageView personalAvatarImageSuccess;
-    @BindView(R.id.personal_avatarusername_success)
+    @BindView(personal_avatarusername_success)
     TextView personalAvatarusernameSuccess;
-    @BindView(R.id.liner_login_success)
+    @BindView(liner_login_success)
     LinearLayout linerLoginSuccess;
     @BindView(R.id.liner_history)
     LinearLayout linerHistory;
@@ -43,17 +48,26 @@ public class PersonalActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        SharedPreferences sharedPreferences = getSharedPreferences(Keys.LOGINSTATE, MODE_PRIVATE);
+        final String string = sharedPreferences.getString(Keys.USERNAME, "");
+        if(!string.equals("")) {
+
+            linerLogin.setVisibility(View.GONE);
+            linerLoginSuccess.setVisibility(View.VISIBLE);
+            personalAvatarusernameSuccess.setText(string);
+        }
 
     }
 
 
-    @OnClick({R.id.liner_login, R.id.liner_login_success, R.id.liner_history, R.id.liner_collection, R.id.linear_set,R.id.personal_backImage})
+    @OnClick({R.id.liner_login, liner_login_success, R.id.liner_history, R.id.liner_collection, R.id.linear_set,R.id.personal_backImage})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.liner_login:
                 ToActivity.load(LoginActivity.class);
                 break;
-            case R.id.liner_login_success:
+            case liner_login_success:
+                ToActivity.load(LoginSuccessActivity.class);
                 break;
             case R.id.liner_history:
                 ToActivity.load(HistoryActivity.class);
@@ -69,6 +83,5 @@ public class PersonalActivity extends BaseActivity {
                 break;
         }
     }
-
 
 }

@@ -37,7 +37,6 @@ public class MailBoxPresenter implements MailBoxContract.Presenter {
             @Override
             public void onSuccess(Bundle bundle) {
                 jsessionid = bundle.getString(Keys.JSESSIONID);
-                MyLog.d("TAG","jsessionid::::"+jsessionid);
                 byte[] byteArray = bundle.getByteArray(Keys.IMGCODE);
                 Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                 mvmailboxview.showImgCode(bitmap);
@@ -109,7 +108,6 @@ public class MailBoxPresenter implements MailBoxContract.Presenter {
                 String msg = register.getMsg();
                 if("成功".equals(msg)){
                     mvmailboxview.toLogin();
-
                 }else {
                     mvmailboxview.showMessage(msg);
                 }

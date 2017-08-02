@@ -29,7 +29,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="100424468" />
+                <data android:scheme="1106321830" />
             </intent-filter>
         </activity>
         <activity
@@ -46,7 +46,7 @@
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="597ed0d5f5ade464d3000842" >
-        </meta-data>
+    </meta-data>
     </application>
 
 </manifest>

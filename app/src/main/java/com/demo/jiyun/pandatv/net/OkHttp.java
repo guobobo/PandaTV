@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.demo.jiyun.pandatv.app.App;
 import com.demo.jiyun.pandatv.config.Keys;
+import com.demo.jiyun.pandatv.model.entity.LoginBean;
 import com.demo.jiyun.pandatv.net.callback.MyNetWorkCallBack;
 import com.demo.jiyun.pandatv.utils.ACache;
 import com.google.gson.Gson;
@@ -143,7 +144,7 @@ public class OkHttp implements IHttp {
             }
         }
 
-        Request.Builder builder = new Request.Builder();
+        Request.Builder builder = new Request.Builder().url(url);
 
         if(heads!=null&& heads.size()>0){
 
@@ -159,6 +160,56 @@ public class OkHttp implements IHttp {
         }
 
         Request request = builder.put(bodyBuilder.build()).build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                App.context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBack.onError(e.getMessage().toString());
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                final String string = response.body().string();
+
+                App.context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        callBack.onSuccess(getGeneric(string,callBack));
+
+                    }
+                });
+
+            }
+        });
+
+    }
+
+    @Override
+    public <T> void getHeaders(String url, Map<String, String> heads, final MyNetWorkCallBack<T> callBack) {
+
+        Request.Builder builder = new Request.Builder().url(url);
+
+        if(heads!=null&& heads.size()>0){
+
+            Set<String> keySet = heads.keySet();
+
+            for (String key : keySet) {
+
+                String value = heads.get(key);
+
+                builder.addHeader(key,value);
+            }
+
+        }
+
+        Request request = builder.build();
 
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -384,7 +435,7 @@ public class OkHttp implements IHttp {
 
         }
 
-        Request request = builder.post(bodyBuilder.build()).build();
+        Request request = builder.url(url).post(bodyBuilder.build()).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
@@ -430,6 +481,67 @@ public class OkHttp implements IHttp {
 
     }
 
+    //加载手机验证码
+    public void loadPhoneCode(String url, Map<String, String> params, Map<String, String> heads, final MyNetWorkCallBack<String> callBack){
+
+        FormBody.Builder bodyBuilder = new FormBody.Builder();
+
+        if(params!=null&&params.size()>0) {
+
+            Set<String> keySet = params.keySet();
+
+            for (String key : keySet) {
+                String value = params.get(key);
+
+                bodyBuilder.add(key,value);
+            }
+        }
+
+        Request.Builder builder = new Request.Builder();
+
+        if(heads!=null&& heads.size()>0){
+
+            Set<String> keySet = heads.keySet();
+
+            for (String key : keySet) {
+
+                String value = heads.get(key);
+
+                builder.addHeader(key,value);
+            }
+
+        }
+        Request request = builder.url(url).post(bodyBuilder.build()).build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+
+                App.context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBack.onError(e.getMessage().toString());
+                    }
+                });
+
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                final String string = response.body().string();
+
+                App.context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callBack.onSuccess(string);
+                    }
+                });
+
+            }
+        });
+    }
+
+    //获取图片验证码
     public void loadImgCode(String url,final MyNetWorkCallBack<Bundle> callback){
         Request request = new Request.Builder().url(url).build();
         client.newCall(request).enqueue(new Callback() {
@@ -450,15 +562,6 @@ public class OkHttp implements IHttp {
                 byte[] bytes = response.body().bytes();
                 Headers headers = response.headers();
                 String jsessionId =  headers.get("Set-Cookie");
-//                for (int i = 0; i < headers.size(); i++){
-//                    String name = headers.name(i);
-//                    headers.get("Set-Cookie")
-//                    MyLog.d("abc","name = "+name);
-//                    if(name != null && name.contains("JSESSIONID") && !name.contains(";")){
-//                        jsessionId = headers.get(name);
-//                        break;
-//                    }
-//                }
                 final Bundle bundle = new Bundle();
                 bundle.putString(Keys.JSESSIONID,jsessionId);
                 bundle.putByteArray(Keys.IMGCODE,bytes);
@@ -476,6 +579,66 @@ public class OkHttp implements IHttp {
         });
     }
 
+    public <T> void getLoginCookie(String url, Map<String, String> heads, final MyNetWorkCallBack<Bundle> callBack) {
+
+        Request.Builder builder = new Request.Builder().url(url);
+
+        if(heads!=null&& heads.size()>0){
+
+            Set<String> keySet = heads.keySet();
+
+            for (String key : keySet) {
+
+                String value = heads.get(key);
+
+                builder.addHeader(key,value);
+            }
+
+        }
+
+        Request request = builder.build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                App.context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //执行在主线程
+                        callBack.onError(e.getMessage().toString());
+                    }
+                });
+
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String cookie = response.headers().get("Set-Cookie");
+
+                String string = response.body().string();
+
+                final Bundle mbundle = new Bundle();
+
+                Gson gson = new Gson();
+
+                LoginBean loginBean = gson.fromJson(string, LoginBean.class);
+
+                mbundle.putString("cookie",cookie);
+
+                mbundle.putParcelable("loginBean",loginBean);
+
+                //执行在子线程中
+                App.context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //执行在主线程
+                        callBack.onSuccess(mbundle);
+                    }
+                });
+
+            }
+        });
+    }
 
     /**
      * 自动解析json至回调中的JavaBean

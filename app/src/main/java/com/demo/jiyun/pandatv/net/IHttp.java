@@ -11,6 +11,7 @@ public interface IHttp {
     <T> void get(String url, MyNetWorkCallBack<T> callBack);
     <T> void get(String url, Map<String,String> params,MyNetWorkCallBack<T> callBack);
     <T> void get(String url,Map<String,String> params,Map<String,String> heads,MyNetWorkCallBack<T> callBack);
+    <T> void getHeaders(String url,Map<String,String> heads,MyNetWorkCallBack<T> callBack);
     <T> void post(String url, Map<String,String> params,MyNetWorkCallBack<T> callBack);
     <T> void post(String url,Map<String,String> params,Map<String,String> heads,MyNetWorkCallBack<T> callBack);
     <T> void getWonderfulDta(String url, Map<String, String> params, final MyNetWorkCallBack<T> callBack);

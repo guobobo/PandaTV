@@ -21,7 +21,9 @@ public interface PhoneContract {
         void hidePwdTips();
 
         void showImgCode(Bitmap bitmap);
-        void showPhoneCode(String code);
+
+        void showPhoneCodeTips(String code);
+        void hidePhoneCodeTips();
 
         void showYzmTips(String msg);
         void hideYzmTips();
@@ -31,12 +33,12 @@ public interface PhoneContract {
     }
 
     interface Presenter extends BasePresenter {
-        boolean checkNumber(String emailAddress);
+        boolean checkNumber(String phoneNumber);
         boolean checkPwd(String pwd);
         boolean checkImgCode(String imgCode);
-        boolean checkPhoneCode();
+        boolean checkPhoneCode(String phoneCode);
         void getPhoneCode(String mobileNumber, String imageCode);
-        void register(String mailAdd,String passWd,String verificationCode);
+        void register(String phoneNumber,String passWd,String phoneCode);
     }
 
 }

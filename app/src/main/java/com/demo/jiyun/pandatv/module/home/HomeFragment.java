@@ -180,9 +180,10 @@ public class HomeFragment extends BaseFragment implements HomeContract.View ,Hom
     }
 
     @Override
-    public void getpandaeyeClicks(PandaHomeBean.DataBean.PandaeyeBean.ItemsBean itemsBean) {
-        ToActivity.loadWeb(itemsBean.getUrl());
+    public void getpandaeyeClicks(PandaeyeListBean.ListBean pandaeyeListBean) {
+        ToActivity.loadWeb(pandaeyeListBean.getUrl());
     }
+
     @Override
     public void getInteractiveClick(PandaHomeBean.DataBean.InteractiveBean.InteractiveoneBean interactiveoneBean) {
 

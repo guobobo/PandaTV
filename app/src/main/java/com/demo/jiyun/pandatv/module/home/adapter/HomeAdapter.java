@@ -64,7 +64,7 @@ public class HomeAdapter extends RecyclerView.Adapter implements HomeAreaAdapter
         //精彩推荐监听
         void getareaClick(PandaHomeBean.DataBean.AreaBean.ListscrollBean listscrollBean);
         //熊猫观察
-        void getpandaeyeClicks(PandaHomeBean.DataBean.PandaeyeBean.ItemsBean itemsBean);
+        void getpandaeyeClicks(PandaeyeListBean.ListBean pandaeyeListBean);
         //特别策划
         void getInteractiveClick(PandaHomeBean.DataBean.InteractiveBean.InteractiveoneBean interactiveoneBean);
         //光影中国
@@ -171,7 +171,10 @@ public class HomeAdapter extends RecyclerView.Adapter implements HomeAreaAdapter
                 pandaeye_recy = pandaeyeHolder.pandaeye_recy;
                 LinearLayoutManager managereye = new LinearLayoutManager(context);
                 pandaeye_recy.setLayoutManager(managereye);
-                pandaeye_recy.setAdapter(new HomePandaeyeAdapter(context, eyeList));
+                HomePandaeyeAdapter homePandaeyeAdapter = new HomePandaeyeAdapter(context, eyeList);
+                homePandaeyeAdapter.PandaeyeAdapterOnClick(this);
+                pandaeye_recy.setAdapter(homePandaeyeAdapter);
+//                loadpandaeye(pandaeyeHolder,pandaeyeBean,position);
                 break;
             case PANDALIVE:
                 PandaliveHolder pandaliveHolder = (PandaliveHolder) holder;
@@ -208,6 +211,7 @@ public class HomeAdapter extends RecyclerView.Adapter implements HomeAreaAdapter
                 LinearLayoutManager lightManager = new LinearLayoutManager(context);
                 light_recy.setLayoutManager(lightManager);
                 HomeLightAdapter homeLightAdapter = new HomeLightAdapter(context, lightList);
+                homeLightAdapter.sethomeLightAdapter(this);
                 light_recy.setAdapter(homeLightAdapter);
                 break;
         }
@@ -251,10 +255,15 @@ public class HomeAdapter extends RecyclerView.Adapter implements HomeAreaAdapter
     class PandaeyeHolder extends RecyclerView.ViewHolder {
 
         private RecyclerView pandaeye_recy;
+        private final TextView eye_interestingtext;
+        private final TextView eye_newtext;
 
         public PandaeyeHolder(View itemView) {
             super(itemView);
             pandaeye_recy = (RecyclerView) itemView.findViewById(R.id.pandaeye_recy);
+
+            eye_interestingtext = (TextView) itemView.findViewById(R.id.eye_interestingtext);
+            eye_newtext = (TextView) itemView.findViewById(R.id.eye_newtext);
         }
     }
 
@@ -351,6 +360,22 @@ public class HomeAdapter extends RecyclerView.Adapter implements HomeAreaAdapter
         recyclerView.setAdapter(homeAreaAdapter);
     }
 
+    private void loadpandaeye(PandaeyeHolder holder, final PandaHomeBean.DataBean.PandaeyeBean pandaeyeBean, final int pos){
+        holder.eye_interestingtext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ToActivity.loadWeb(pandaeyeBean.getItems().get(pos).getUrl());
+            }
+        });
+        holder.eye_newtext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToActivity.loadWeb(pandaeyeBean.getItems().get(pos).getUrl());
+            }
+        });
+
+    }
 //    熊猫直播
 
     private void loadPandalive(PandaliveHolder holder, PandaHomeBean.DataBean.PandaliveBean pandaliveBean) {
@@ -472,7 +497,7 @@ public class HomeAdapter extends RecyclerView.Adapter implements HomeAreaAdapter
     @Override
     public void setPandaeyeOnClick(View v, int pos) {
 
-        homeonclick.getpandaeyeClicks(pandaeyeBean.getItems().get(pos));
+        homeonclick.getpandaeyeClicks(eyeList.get(pos));
     }
 
     //光影中国

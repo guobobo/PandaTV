@@ -3,7 +3,6 @@ package com.demo.jiyun.pandatv.model.biz;
 import android.os.Bundle;
 
 import com.demo.jiyun.pandatv.config.Urls;
-import com.demo.jiyun.pandatv.model.entity.RegisterBean;
 import com.demo.jiyun.pandatv.net.OkHttp;
 import com.demo.jiyun.pandatv.net.callback.MyNetWorkCallBack;
 
@@ -23,7 +22,7 @@ public class Phone implements PhoneModel{
     }
 
     @Override
-    public void register(String mobileNumber, String phoneCode, String passWd, MyNetWorkCallBack<RegisterBean> callback) {
+    public void register(String mobileNumber, String phoneCode, String passWd, MyNetWorkCallBack<String> callback) {
 
         Map<String ,String> parmes = new HashMap<>();
         parmes.put("method","saveMobileRegisterM");
@@ -45,13 +44,13 @@ public class Phone implements PhoneModel{
             e.printStackTrace();
         }
 
-        iHttp.post(Urls.PHONEREGISTER,parmes,headers,callback);
+        OkHttp.getInstance().loadPhoneCode(Urls.PHONEREGISTER,parmes,headers,callback);
 
     }
 
 
     @Override
-    public void loadPhoneCode(String mobileNumber, String imageCode, String jsonId,MyNetWorkCallBack<RegisterBean> callback) {
+    public void loadPhoneCode(String mobileNumber, String imageCode, String jsonId,MyNetWorkCallBack<String> callback) {
 
         Map<String ,String> parmes = new HashMap<>();
 
@@ -71,6 +70,6 @@ public class Phone implements PhoneModel{
             e.printStackTrace();
         }
 
-        iHttp.post(Urls.PHONECODE,parmes,headers,callback);
+        OkHttp.getInstance().loadPhoneCode(Urls.PHONECODE,parmes,headers,callback);
     }
 }

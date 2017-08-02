@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.demo.jiyun.pandatv.R;
 import com.demo.jiyun.pandatv.base.BaseFragment;
+import com.demo.jiyun.pandatv.module.mine.LoginActivity;
+import com.demo.jiyun.pandatv.utils.CustomDialog;
+import com.demo.jiyun.pandatv.utils.ToActivity;
 import com.demo.jiyun.pandatv.utils.ToastManager;
 
 import butterknife.BindView;
@@ -66,59 +69,68 @@ public class PhoneFragment extends BaseFragment implements PhoneContract.View {
 
     @Override
     public void showNumberTips(String msg) {
-
+        hintPhone.setVisibility(View.VISIBLE);
+        hintPhone.setText(msg);
     }
 
     @Override
     public void hideNumberTips() {
-
+        hintPhone.setVisibility(View.GONE);
     }
 
     @Override
     public void showPwdTips(String msg) {
-
+        hintPassword.setVisibility(View.VISIBLE);
+        hintPassword.setText(msg);
     }
 
     @Override
     public void hidePwdTips() {
-
+        hintPassword.setVisibility(View.GONE);
     }
 
     @Override
     public void showImgCode(Bitmap bitmap) {
-
-
         phonefragmentNetYanzhengma.setImageBitmap(bitmap);
     }
 
     @Override
-    public void showPhoneCode(String code) {
+    public void showPhoneCodeTips(String code) {
+        hintDuanxin.setVisibility(View.VISIBLE);
+        hintDuanxin.setText(code);
+    }
 
+    @Override
+    public void hidePhoneCodeTips() {
+        hintDuanxin.setVisibility(View.GONE);
     }
 
     @Override
     public void showYzmTips(String msg) {
-
+        hintImagyanzhengma.setVisibility(View.VISIBLE);
+        hintImagyanzhengma.setText(msg);
     }
 
     @Override
     public void hideYzmTips() {
-
+        hintImagyanzhengma.setVisibility(View.GONE);
     }
 
     @Override
     public void toLogin() {
-
+        ToActivity.load(LoginActivity.class);
     }
 
     @Override
     public void showProgress() {
 
+        CustomDialog.show(getActivity());
+
     }
 
     @Override
     public void dimissProgress() {
-
+        CustomDialog.dimiss();
     }
 
     @Override
@@ -145,6 +157,11 @@ public class PhoneFragment extends BaseFragment implements PhoneContract.View {
                         phonefragmentIamgeEditYanzhengma.getText().toString().trim());
                 break;
             case R.id.phonefragment_btn_registered:
+
+                presenter.register(phonefragmentName.getText().toString().trim(),
+                        phonefragmentDuanxinEditYanzhengma.getText().toString(),
+                        phonefragmentpassward.getText().toString());
+
                 break;
         }
     }

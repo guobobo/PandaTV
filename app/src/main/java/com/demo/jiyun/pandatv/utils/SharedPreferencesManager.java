@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.demo.jiyun.pandatv.app.App;
+import com.demo.jiyun.pandatv.config.Keys;
 
 /**
  * Created by xingge on 2017/7/26.
@@ -12,10 +13,14 @@ import com.demo.jiyun.pandatv.app.App;
 public class SharedPreferencesManager {
 
 
-    private static SharedPreferences preferences = App.context.getSharedPreferences("user",Context.MODE_PRIVATE);
+    private static SharedPreferences preferences = App.context.getSharedPreferences(Keys.LOGINSTATE,Context.MODE_PRIVATE);
     private static SharedPreferences.Editor editor = preferences.edit();
-    public static void saveUserInfo(String key,String userInfo){
+    public static boolean saveUserInfo(String key,String userInfo){
         editor.putString(key,userInfo);
-        editor.commit();
+        boolean commit = editor.commit();
+        if(commit) {
+            return true;
+        }
+        return false;
     }
 }
