@@ -1,12 +1,13 @@
 package com.demo.jiyun.pandatv.model.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by iu on 2017/7/27.
  */
 
-public class PandaLiveBean {
+public class PandaLiveBean implements Serializable {
 
     /**
      * bookmark : {"multiple":[{"order":"1","title":"多视角直播","url":"http://www.ipanda.com/kehuduan/PAGE14501769230331752/PAGE14501787896813312/index.json"}],"watchTalk":[{"order":"1","title":"边看边聊","url":"zhiboye_chat"}]}
@@ -32,7 +33,7 @@ public class PandaLiveBean {
         this.live = live;
     }
 
-    public static class BookmarkBean {
+    public static class BookmarkBean implements Serializable {
         private List<MultipleBean> multiple;
         private List<WatchTalkBean> watchTalk;
 
@@ -52,7 +53,7 @@ public class PandaLiveBean {
             this.watchTalk = watchTalk;
         }
 
-        public static class MultipleBean {
+        public static class MultipleBean implements Serializable {
             /**
              * order : 1
              * title : 多视角直播
@@ -88,7 +89,7 @@ public class PandaLiveBean {
             }
         }
 
-        public static class WatchTalkBean {
+        public static class WatchTalkBean implements Serializable {
             /**
              * order : 1
              * title : 边看边聊
@@ -125,7 +126,7 @@ public class PandaLiveBean {
         }
     }
 
-    public static class LiveBean {
+    public static class LiveBean implements Serializable {
         /**
          * brief : 翻身、吃饭、睡觉、喝奶、打闹、攀爬……这里是成都大熊猫繁育研究基地，24小时高清直播大熊猫生活实况的地方。成年园、幼年园、幼儿园、母子园、一号别墅，11路直播信号28个摄像头，让你零距离了解国宝们的日常起居。
          * id : ipanda

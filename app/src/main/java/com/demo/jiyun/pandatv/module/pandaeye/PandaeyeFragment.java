@@ -13,10 +13,10 @@ import com.demo.jiyun.pandatv.base.BaseFragment;
 import com.demo.jiyun.pandatv.model.entity.BroadCastBean;
 import com.demo.jiyun.pandatv.model.entity.BroadCastListBean;
 import com.demo.jiyun.pandatv.module.pandaeye.adapter.PandaeyeAdapterXRecy;
+import com.demo.jiyun.pandatv.utils.ACache;
 import com.demo.jiyun.pandatv.utils.CustomDialog;
 import com.demo.jiyun.pandatv.utils.DBUtils;
 import com.demo.jiyun.pandatv.utils.ToActivity;
-import com.demo.jiyun.pandatv.utils.ToastManager;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -94,7 +94,6 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
             url= bigImgBean.getUrl();
         }
 //        pandaeyeAdapterXRecy.notifyDataSetChanged();
-
     }
 
     @Override
@@ -104,6 +103,7 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
         pandaeyeAdapterXRecy.notifyDataSetChanged();
         pandaeyeXrecy.refreshComplete();
         pandaeyeXrecy.loadMoreComplete();
+
     }
 
     @Override
@@ -128,7 +128,29 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
 
     @Override
     public void showMessage(String msg) {
-        ToastManager.show(msg);
+//        ToastManager.show(msg);
+
+        ACache aCache = ACache.get(getContext());
+        BroadCastListBean broadCastListBean = (BroadCastListBean) aCache.getAsObject("BroadCastListBean");
+        BroadCastBean broadCastBean = (BroadCastBean) aCache.getAsObject("BroadCastBean");
+        if(broadCastListBean!=null){
+            broadCastListBeen.clear();
+            broadCastListBeen.addAll(broadCastListBean.getList());
+            pandaeyeAdapterXRecy.notifyDataSetChanged();
+            pandaeyeXrecy.refreshComplete();
+            pandaeyeXrecy.loadMoreComplete();
+        }
+        if(broadCastBean!=null) {
+            broadCasts.clear();
+            broadCasts.addAll(broadCastBean.getData().getBigImg());
+            for (int i = 0; i < broadCasts.size(); i++) {
+                BroadCastBean.DataBean.BigImgBean bigImgBean = broadCasts.get(i);
+                itemEyeTitle.setText(bigImgBean.getTitle());
+                Glide.with(getActivity()).load(bigImgBean.getImage()).into(itemEyeImg);
+                url= bigImgBean.getUrl();
+            }
+        }
+
     }
 
     @Override

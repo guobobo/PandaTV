@@ -42,7 +42,10 @@ public class App extends Application {
             }
         });
 
-    }
+        //全局捕获异常
+//        CrashHandler instance = CrashHandler.getInstance();
+//        instance.init(getApplicationContext());
 
+    }
 
 }

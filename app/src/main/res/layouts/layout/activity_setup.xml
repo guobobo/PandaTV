@@ -134,7 +134,8 @@
             android:id="@+id/relative_delete"
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -145,18 +146,20 @@
                 android:layout_marginLeft="@dimen/x30"/>
 
             <TextView
+                android:id="@+id/set_acache"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4.54M"
-                android:layout_marginTop="@dimen/y50"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/x150"/>
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x110"/>
 
             <ImageView
+                android:id="@+id/set_delete_acache"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/y30"
                 android:layout_marginRight="@dimen/x50"
+                android:layout_centerVertical="true"
                 android:src="@drawable/personal_delete_img"
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>

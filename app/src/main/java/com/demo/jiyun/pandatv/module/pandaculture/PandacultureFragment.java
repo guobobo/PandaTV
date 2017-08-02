@@ -7,6 +7,7 @@ import com.demo.jiyun.pandatv.R;
 import com.demo.jiyun.pandatv.base.BaseFragment;
 import com.demo.jiyun.pandatv.model.entity.CurtureBean;
 import com.demo.jiyun.pandatv.module.pandaculture.adapter.PandacultureAapterXRecy;
+import com.demo.jiyun.pandatv.utils.ACache;
 import com.demo.jiyun.pandatv.utils.CustomDialog;
 import com.demo.jiyun.pandatv.utils.ToastManager;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -84,7 +85,17 @@ public class PandacultureFragment extends BaseFragment implements PandacultureCo
 
     @Override
     public void showMessage(String msg) {
-        ToastManager.show(msg);
+//        ToastManager.show(msg);
+        ACache aCache = ACache.get(getContext());
+        CurtureBean curtureBean = (CurtureBean) aCache.getAsObject("CurtureBean");
+        if(curtureBean!=null){
+            datas.clear();
+            datas.add(curtureBean.getBigImg());
+            datas.add(curtureBean.getList());
+            pandacultureAapterXRecy.notifyDataSetChanged();
+            pandacultureXrecy.refreshComplete();
+            pandacultureXrecy.loadMoreComplete();
+        }
     }
 
     @Override

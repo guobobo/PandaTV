@@ -1,12 +1,13 @@
 package com.demo.jiyun.pandatv.model.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by iu on 2017/7/29.
  */
 
-public class HomelightListBean {
+public class HomelightListBean implements Serializable {
 
     private List<ListBean> list;
 
@@ -18,7 +19,7 @@ public class HomelightListBean {
         this.list = list;
     }
 
-    public static class ListBean {
+    public static class ListBean implements Serializable {
         /**
          * daytime : 2017-02-27
          * id : TITE1488182767919809

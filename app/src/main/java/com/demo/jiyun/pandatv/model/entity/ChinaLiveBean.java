@@ -1,12 +1,13 @@
 package com.demo.jiyun.pandatv.model.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by iu on 2017/7/27.
  */
 
-public class ChinaLiveBean {
+public class ChinaLiveBean implements Serializable{
 
 
     private List<AlllistBean> alllist;
@@ -28,7 +29,7 @@ public class ChinaLiveBean {
         this.tablist = tablist;
     }
 
-    public static class AlllistBean {
+    public static class AlllistBean implements Serializable {
         /**
          * order : 1
          * title : 凤凰古城
@@ -74,7 +75,7 @@ public class ChinaLiveBean {
         }
     }
 
-    public static class TablistBean {
+    public static class TablistBean implements Serializable {
         /**
          * order : 1
          * title : 八达岭

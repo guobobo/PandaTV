@@ -8,9 +8,11 @@ import com.bumptech.glide.Glide;
 import com.demo.jiyun.pandatv.app.App;
 import com.demo.jiyun.pandatv.config.Keys;
 import com.demo.jiyun.pandatv.net.callback.MyNetWorkCallBack;
+import com.demo.jiyun.pandatv.utils.ACache;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -489,6 +491,9 @@ public class OkHttp implements IHttp {
         Type[] actualTypeArguments = ((ParameterizedType) types[0]).getActualTypeArguments();
         Type type = actualTypeArguments[0];
         T t = gson.fromJson(jsonData,type);
+        ACache aCache = ACache.get(App.context);
+        aCache.put(t.getClass().getSimpleName(), (Serializable) t);
+
         return t;
     }
 

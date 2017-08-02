@@ -95,10 +95,10 @@ public class LookchatBean implements Serializable {
             this.content = content;
         }
 
-        public static class ReplyBean {
+        public static class ReplyBean implements Serializable {
         }
 
-        public static class ReplyCountBean {
+        public static class ReplyCountBean implements Serializable {
         }
 
         public static class ContentBean implements Serializable {

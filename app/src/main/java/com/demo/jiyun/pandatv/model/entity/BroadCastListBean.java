@@ -1,9 +1,10 @@
 package com.demo.jiyun.pandatv.model.entity;
 
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BroadCastListBean {
+public class BroadCastListBean implements Serializable{
 
     /**
      * total : 1135
@@ -29,7 +30,7 @@ public class BroadCastListBean {
         this.list = list;
     }
 
-    public static class ListBean {
+    public static class ListBean  implements Serializable{
         /**
          * num : 1
          * datatype : video
