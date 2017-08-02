@@ -38,6 +38,7 @@ public class PandacultureFragment extends BaseFragment implements PandacultureCo
     protected void init(View view) {
         new PandaculturePresenter(this);
         datas=new ArrayList<Object>();
+
         LinearLayoutManager manager=new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         pandacultureXrecy.setLayoutManager(manager);
@@ -85,7 +86,7 @@ public class PandacultureFragment extends BaseFragment implements PandacultureCo
 
     @Override
     public void showMessage(String msg) {
-//        ToastManager.show(msg);
+
         ACache aCache = ACache.get(getContext());
         CurtureBean curtureBean = (CurtureBean) aCache.getAsObject("CurtureBean");
         if(curtureBean!=null){
@@ -95,6 +96,8 @@ public class PandacultureFragment extends BaseFragment implements PandacultureCo
             pandacultureAapterXRecy.notifyDataSetChanged();
             pandacultureXrecy.refreshComplete();
             pandacultureXrecy.loadMoreComplete();
+        }else {
+            ToastManager.show(msg);
         }
     }
 

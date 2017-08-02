@@ -17,6 +17,7 @@ import com.demo.jiyun.pandatv.utils.ACache;
 import com.demo.jiyun.pandatv.utils.CustomDialog;
 import com.demo.jiyun.pandatv.utils.DBUtils;
 import com.demo.jiyun.pandatv.utils.ToActivity;
+import com.demo.jiyun.pandatv.utils.ToastManager;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -128,7 +129,6 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
 
     @Override
     public void showMessage(String msg) {
-//        ToastManager.show(msg);
 
         ACache aCache = ACache.get(getContext());
         BroadCastListBean broadCastListBean = (BroadCastListBean) aCache.getAsObject("BroadCastListBean");
@@ -139,6 +139,8 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
             pandaeyeAdapterXRecy.notifyDataSetChanged();
             pandaeyeXrecy.refreshComplete();
             pandaeyeXrecy.loadMoreComplete();
+        }else {
+            ToastManager.show(msg);
         }
         if(broadCastBean!=null) {
             broadCasts.clear();
@@ -149,6 +151,8 @@ public class PandaeyeFragment extends BaseFragment implements PandaeyeContract.V
                 Glide.with(getActivity()).load(bigImgBean.getImage()).into(itemEyeImg);
                 url= bigImgBean.getUrl();
             }
+        }else {
+            ToastManager.show(msg);
         }
 
     }
