@@ -16,6 +16,7 @@ import java.util.Map;
  */
 
 public class Phone implements PhoneModel{
+
     @Override
     public void loadImgCode(MyNetWorkCallBack<Bundle> callback) {
         OkHttp.getInstance().loadImgCode(Urls.IMGCODE,callback);
