@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2017-06-14"
-            android:layout_marginTop="@dimen/y70"
+            android:layout_marginTop="@dimen/y50"
             android:id="@+id/eye_list_text2"/>
     </LinearLayout>
 

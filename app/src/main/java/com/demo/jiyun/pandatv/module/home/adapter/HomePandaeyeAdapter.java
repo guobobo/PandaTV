@@ -31,10 +31,21 @@ public class HomePandaeyeAdapter extends RecyclerView.Adapter {
         this.inflater = LayoutInflater.from(context);
     }
 
+
+    public interface PandaeyeOnClick{
+        void setPandaeyeOnClick(View v,int pos);
+    }
+
+    private PandaeyeOnClick pandaeyeOnClick;
+
+    public void PandaeyeAdapterOnClick (HomePandaeyeAdapter.PandaeyeOnClick pandaeyeOnClick) {
+        this.pandaeyeOnClick = pandaeyeOnClick;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.pandaeye_recy_item,null);
-        return new Holder(view);
+        return new Holder(view,pandaeyeOnClick);
     }
 
     @Override
@@ -55,12 +66,19 @@ public class HomePandaeyeAdapter extends RecyclerView.Adapter {
         private final ImageView eye_list_image1;
         private final TextView eye_list_text1;
         private final TextView eye_list_text2;
+        PandaeyeOnClick pandaeyeOnClick;
 
-        public Holder(View itemView) {
+        public Holder(View itemView, final PandaeyeOnClick pandaeyeOnClick) {
             super(itemView);
             eye_list_image1 = (ImageView) itemView.findViewById(R.id.eye_list_image1);
             eye_list_text1 = (TextView) itemView.findViewById(R.id.eye_list_text1);
             eye_list_text2 = (TextView) itemView.findViewById(R.id.eye_list_text2);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pandaeyeOnClick.setPandaeyeOnClick(v,getAdapterPosition());
+                }
+            });
         }
     }
 }

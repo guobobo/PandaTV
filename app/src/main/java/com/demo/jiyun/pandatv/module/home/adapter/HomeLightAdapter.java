@@ -33,10 +33,20 @@ public class HomeLightAdapter extends RecyclerView.Adapter {
 
 
 
+    public interface LightOnClick{
+        void setLightOnClick(View v,int pos);
+    }
+
+    public LightOnClick lightOnClick;
+
+    public void sethomeLightAdapter(LightOnClick lightOnClick) {
+        this.lightOnClick = lightOnClick;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.light_recy_item,null);
-        return new Holder(view);
+        return new Holder(view,lightOnClick);
     }
 
     @Override
@@ -58,12 +68,20 @@ public class HomeLightAdapter extends RecyclerView.Adapter {
         private final TextView light_item_content;
         private final ImageView light_item_image;
         private final TextView light_item_time;
+        LightOnClick lightOnClick;
 
-        public Holder(View itemView) {
+        public Holder(View itemView, final LightOnClick lightOnClick) {
             super(itemView);
             light_item_content = (TextView) itemView.findViewById(R.id.light_item_content);
             light_item_image = (ImageView) itemView.findViewById(R.id.light_item_image);
             light_item_time = (TextView) itemView.findViewById(R.id.light_item_time);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    lightOnClick.setLightOnClick(v,getAdapterPosition());
+                }
+            });
         }
     }
 }

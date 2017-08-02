@@ -18,10 +18,10 @@ import com.demo.jiyun.pandatv.model.entity.HomelightListBean;
 import com.demo.jiyun.pandatv.model.entity.PandaHomeBean;
 import com.demo.jiyun.pandatv.model.entity.PandaeyeListBean;
 import com.demo.jiyun.pandatv.net.HttpFactory;
-import com.demo.jiyun.pandatv.net.callback.MyNetWorkCallBack;
-import com.demo.jiyun.pandatv.utils.MyLog;
+import com.demo.jiyun.pandatv.utils.ToActivity;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +33,9 @@ import static com.demo.jiyun.pandatv.R.id.live_title;
  * Created by iu on 2017/7/28.
  */
 
-public class HomeAdapter extends RecyclerView.Adapter {
+public class HomeAdapter extends RecyclerView.Adapter implements HomeAreaAdapter.AreaOnClick,HomePandaeyeAdapter.PandaeyeOnClick,HomeLightAdapter.LightOnClick {
 
-
-    private List<Object> datas;
     private LayoutInflater inflater;
-    public static final int ITEMCOUNT = 9;//加载9种不同类型的item
     public static final int BIGIMG = 0;//代表轮播图
     public static final int AREA = 1;//精彩推荐
     public static final int PANDAEYE = 2;//熊猫观察
@@ -49,51 +46,47 @@ public class HomeAdapter extends RecyclerView.Adapter {
     public static final int CCTV = 7;//cctv
     public static final int LIST = 8;//光影中国
     private Context context;
-    private View inflate;
     private RecyclerView pandaeye_recy;
     private RecyclerView cctv_recy;
     private RecyclerView light_recy;
+    private PandaHomeBean.DataBean.AreaBean areaBean;
+    private PandaHomeBean.DataBean.PandaeyeBean pandaeyeBean;
+    private PandaHomeBean.DataBean.InteractiveBean interactiveBean;
+    private List<Object> datas;
+    private List<PandaeyeListBean.ListBean> eyeList;
+    private List<HomelightListBean.ListBean> lightList;
+    private List<HomecctvListBean.ListBean> cctvList;
 
 
     public interface HomeOnclick {
-
-        //        轮播图监听
-        void getbannerClick(View v, PandaHomeBean.DataBean.BigImgBean bigImgBean);
-        //        精彩推荐  监听的方法
-        void getwonderfulClick(PandaHomeBean.DataBean.AreaBean.ListscrollBean home_data);
-        //        熊猫观察（新生） 监听的方法
-        void getpandanloogClick(View look_view, PandaHomeBean.DataBean.PandaeyeBean.ItemsBean itemsBean);
-        //       熊猫观察（趣闻） 监听的方法
-        void getpandanloogsecondClick(View look_view, PandaHomeBean.DataBean.PandaeyeBean.ItemsBean second_itemsBean);
-        //        熊猫观察（listview）监听
-        void getpandanlookdownClick(PandaeyeListBean.ListBean look_down_text);
-        //熊猫直播的监听
-        void getPandaliveClick(PandaHomeBean.DataBean.PandaliveBean pandalivebean);
-        //        //        长城直播的监听
-        void getgreatliveClick(PandaHomeBean.DataBean.WallliveBean listBeanX);
-        //
-//        //        直播中国监听
-        void getchinaliveClick(PandaHomeBean.DataBean.ChinaliveBean listBeanXX);
-        //        //        特别策划监听
-        void getligstClick(View v, PandaHomeBean.DataBean.InteractiveBean.InteractiveoneBean interactiveoneBean);
-        //        //        CCTV 点击事件监听
-        void getcctvliveClick(HomecctvListBean.ListBean listBean);
-        //        //        公映中国监听
-        void getmovieliveClick(HomelightListBean.ListBean listBean);
-
+        //播图监听
+        void getbannerClick(String url);
+        //精彩推荐监听
+        void getareaClick(PandaHomeBean.DataBean.AreaBean.ListscrollBean listscrollBean);
+        //熊猫观察
+        void getpandaeyeClicks(PandaHomeBean.DataBean.PandaeyeBean.ItemsBean itemsBean);
+        //特别策划
+        void getInteractiveClick(PandaHomeBean.DataBean.InteractiveBean.InteractiveoneBean interactiveoneBean);
+        //光影中国
+        void getLightClick(HomelightListBean.ListBean listBean);
     }
 
     private HomeOnclick homeonclick;
-    public void HomeOnclick(HomeOnclick homeonclick){
 
+    public void HomeOnclick(HomeOnclick homeonclick){
         this.homeonclick = homeonclick;
     }
-
-
-    public HomeAdapter(List<Object> datas, Context context) {
+    public HomeAdapter(List<Object> datas,
+                       List<PandaeyeListBean.ListBean> eyeList,
+                       List<HomelightListBean.ListBean> lightList,
+                       List<HomecctvListBean.ListBean> cctvList,
+                       Context context) {
         this.datas = datas;
         this.context = context;
+        this.eyeList = eyeList;
+        this.lightList = lightList;
         this.inflater = LayoutInflater.from(context);
+        this.cctvList = cctvList;
     }
 
     @Override
@@ -160,25 +153,25 @@ public class HomeAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Object obj = datas.get(position);
 
-
         switch (getItemViewType(position)) {
             case BIGIMG:
-
                 BannerHoder bannerHoder  = (BannerHoder) holder;
                 List<PandaHomeBean.DataBean.BigImgBean>
                 imgBean = (List<PandaHomeBean.DataBean.BigImgBean>) datas.get(position);
-
                 loadBanner(bannerHoder,imgBean);
                 break;
             case AREA:
                 AreaHolder areaHolder = (AreaHolder) holder;
-                PandaHomeBean.DataBean.AreaBean areaBean = (PandaHomeBean.DataBean.AreaBean) datas.get(position);
+                areaBean = (PandaHomeBean.DataBean.AreaBean) datas.get(position);
                 loadArea(areaHolder, areaBean);
                 break;
             case PANDAEYE:
                 PandaeyeHolder pandaeyeHolder = (PandaeyeHolder) holder;
-                PandaHomeBean.DataBean.PandaeyeBean pandaeyeBean = (PandaHomeBean.DataBean.PandaeyeBean) datas.get(position);
-                loadPandaeye(pandaeyeHolder, pandaeyeBean);
+                pandaeyeBean = (PandaHomeBean.DataBean.PandaeyeBean) datas.get(position);
+                pandaeye_recy = pandaeyeHolder.pandaeye_recy;
+                LinearLayoutManager managereye = new LinearLayoutManager(context);
+                pandaeye_recy.setLayoutManager(managereye);
+                pandaeye_recy.setAdapter(new HomePandaeyeAdapter(context, eyeList));
                 break;
             case PANDALIVE:
                 PandaliveHolder pandaliveHolder = (PandaliveHolder) holder;
@@ -197,19 +190,25 @@ public class HomeAdapter extends RecyclerView.Adapter {
                 break;
             case INTERACTIVE:
                 InteractiveHolder interactiveHolder = (InteractiveHolder) holder;
-                PandaHomeBean.DataBean.InteractiveBean interactiveBean = (PandaHomeBean.DataBean.InteractiveBean) datas.get(position);
-                loadInteractive(interactiveHolder,interactiveBean);
+                interactiveBean = (PandaHomeBean.DataBean.InteractiveBean) datas.get(position);
+                loadInteractive(interactiveHolder, interactiveBean);
                 break;
             case CCTV:
                 CCTVHolder cctvHolder = (CCTVHolder) holder;
                 PandaHomeBean.DataBean.CctvBean cctvBean = (PandaHomeBean.DataBean.CctvBean) datas.get(position);
-                loadCCTV(cctvHolder,cctvBean);
+                cctv_recy = cctvHolder.cctv_recy;
+                GridLayoutManager manager = new GridLayoutManager(context,2);
+                cctv_recy.setLayoutManager(manager);
+                cctv_recy.setAdapter(new HomeCCTVAdapter(context,cctvList));
                 break;
             case LIST:
                 LightHolder lightHolder = (LightHolder) holder;
-
                 List<PandaHomeBean.DataBean.ListBeanXXX> listBeanXXX = (List<PandaHomeBean.DataBean.ListBeanXXX>) datas.get(position);
-                loadLight(lightHolder,listBeanXXX);
+                light_recy = lightHolder.light_recy;
+                LinearLayoutManager lightManager = new LinearLayoutManager(context);
+                light_recy.setLayoutManager(lightManager);
+                HomeLightAdapter homeLightAdapter = new HomeLightAdapter(context, lightList);
+                light_recy.setAdapter(homeLightAdapter);
                 break;
         }
     }
@@ -313,7 +312,6 @@ public class HomeAdapter extends RecyclerView.Adapter {
             interactive_r_item_tv2 = (TextView) itemView.findViewById(R.id.interactive_r_item_tv2);
         }
     }
-
     //CCTV
     class CCTVHolder extends RecyclerView.ViewHolder{
 
@@ -339,32 +337,6 @@ public class HomeAdapter extends RecyclerView.Adapter {
             light_title = (TextView) itemView.findViewById(R.id.light_title);
         }
     }
-
-    private void loadLight(LightHolder holder,List<PandaHomeBean.DataBean.ListBeanXXX> listBeanXXX){
-
-        MyLog.d("TAG","listBeanXXX"+listBeanXXX.get(0).getTitle());
-
-        holder.light_title.setText(listBeanXXX.get(0).getTitle());
-        light_recy = holder.light_recy;
-        HttpFactory.httpCreate().get(listBeanXXX.get(0).getListUrl(), new MyNetWorkCallBack<HomelightListBean>() {
-            @Override
-            public void onSuccess(HomelightListBean homelightListBean) {
-                List<HomelightListBean.ListBean> loghtlist = homelightListBean.getList();
-
-                LinearLayoutManager managereye = new LinearLayoutManager(context);
-                light_recy.setLayoutManager(managereye);
-                light_recy.setAdapter(new HomeLightAdapter(context,loghtlist));
-
-            }
-
-            @Override
-            public void onError(String message) {
-
-            }
-        });
-
-    }
-
     //精彩推荐
     private void loadArea(AreaHolder holder, PandaHomeBean.DataBean.AreaBean areaBean) {
         List<PandaHomeBean.DataBean.AreaBean.ListscrollBean> areas = areaBean.getListscroll();
@@ -374,7 +346,9 @@ public class HomeAdapter extends RecyclerView.Adapter {
         LinearLayoutManager manager = new LinearLayoutManager(context);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(new HomeAreaAdapter(context, areas));
+        HomeAreaAdapter homeAreaAdapter = new HomeAreaAdapter(context, areas);
+        homeAreaAdapter.HomeAreaAdapter(this);
+        recyclerView.setAdapter(homeAreaAdapter);
     }
 
 //    熊猫直播
@@ -383,12 +357,10 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
         List<PandaHomeBean.DataBean.PandaliveBean.ListBean> pandalive = pandaliveBean.getList();
         RecyclerView live_show_recys = holder.live_show_recy;
-
         holder.panda_live_title.setText(pandaliveBean.getTitle());
         GridLayoutManager manager = new GridLayoutManager(context, 3);
         live_show_recys.setLayoutManager(manager);
         live_show_recys.setAdapter(new HomePandaLiveAdapter(context, pandalive));
-
     }
 
     //长城直播
@@ -422,67 +394,19 @@ public class HomeAdapter extends RecyclerView.Adapter {
 //    特别策划
 
 
-    private void loadInteractive(InteractiveHolder holder,PandaHomeBean.DataBean.InteractiveBean interactiveBean){
+    private void loadInteractive(InteractiveHolder holder, final PandaHomeBean.DataBean.InteractiveBean interactiveBean) {
 
         List<PandaHomeBean.DataBean.InteractiveBean.InteractiveoneBean> interactiveone = interactiveBean.getInteractiveone();
-        HttpFactory.httpCreate().imageLoad(interactiveone.get(0).getImage(),holder.interactive_r_item_img);
+        HttpFactory.httpCreate().imageLoad(interactiveone.get(0).getImage(), holder.interactive_r_item_img);
         holder.interactive_r_item_tv1.setText(interactiveBean.getTitle());
         holder.interactive_r_item_tv2.setText(interactiveone.get(0).getTitle());
-
-    }
-    //熊猫观察
-    private void loadPandaeye(PandaeyeHolder holder, final PandaHomeBean.DataBean.PandaeyeBean pandaeyeBean) {
-        pandaeye_recy = holder.pandaeye_recy;
-        final String pandaeyelist = pandaeyeBean.getPandaeyelist();
-        MyLog.d("TAG", "当前数据：：：：" + pandaeyelist.toString());
-        HttpFactory.httpCreate().get(pandaeyelist, new MyNetWorkCallBack<PandaeyeListBean>() {
+        holder.interactive_r_item_img.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(PandaeyeListBean pandaeyeListBean) {
-                List<PandaeyeListBean.ListBean> pandaeyelists = pandaeyeListBean.getList();
-
-                LinearLayoutManager managereye = new LinearLayoutManager(context);
-                pandaeye_recy.setLayoutManager(managereye);
-                pandaeye_recy.setAdapter(new HomePandaeyeAdapter(context, pandaeyelists));
-            }
-
-            @Override
-            public void onError(String message) {
-
+            public void onClick(View v) {
+                homeonclick.getInteractiveClick(interactiveBean.getInteractiveone().get(0));
             }
         });
-
-
-
     }
-    //    CCTV
-
-    private void loadCCTV(CCTVHolder holder, PandaHomeBean.DataBean.CctvBean cctvBean){
-
-        cctv_recy = holder.cctv_recy;
-        holder.cctv_title.setText(cctvBean.getTitle());
-        String listurl = cctvBean.getListurl();
-        MyLog.d("TAG","......................"+listurl);
-        HttpFactory.httpCreate().get(listurl, new MyNetWorkCallBack<HomecctvListBean>() {
-            @Override
-            public void onSuccess(HomecctvListBean homecctvListBean) {
-
-                List<HomecctvListBean.ListBean> cctvlist = homecctvListBean.getList();
-
-                GridLayoutManager manager = new GridLayoutManager(context,2);
-                cctv_recy.setLayoutManager(manager);
-                cctv_recy.setAdapter(new HomeCCTVAdapter(context,cctvlist));
-
-            }
-
-            @Override
-            public void onError(String message) {
-
-            }
-        });
-
-
-    }
-
     //轮播图
     private void loadBanner(final BannerHoder hoder, final List<PandaHomeBean.DataBean.BigImgBean>imgBean){
 
@@ -527,7 +451,35 @@ public class HomeAdapter extends RecyclerView.Adapter {
 
             }
         });
+      hoder.home_banner.setOnBannerListener(new OnBannerListener() {
+          @Override
+          public void OnBannerClick(int position) {
 
+              ToActivity.loadWeb(imgBean.get(position).getUrl());
+          }
+      });
+
+    }
+
+
+    //精彩推荐
+    @Override
+    public void setAreaOnClick(View v, int pos) {
+        homeonclick.getareaClick(areaBean.getListscroll().get(pos));
+    }
+
+    //熊猫观察
+    @Override
+    public void setPandaeyeOnClick(View v, int pos) {
+
+        homeonclick.getpandaeyeClicks(pandaeyeBean.getItems().get(pos));
+    }
+
+    //光影中国
+    @Override
+    public void setLightOnClick(View v, int pos) {
+
+        homeonclick.getLightClick(lightList.get(pos));
     }
 
 
